@@ -1,2 +1,5 @@
-.metadata  
-RemoteSystemsTemFiles
+Servers
+RemoteSystemsTempFiles
+.recommenders
+.metadata
+.gitignore
