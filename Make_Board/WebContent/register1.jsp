@@ -8,6 +8,7 @@ String name = "";
 String Nickname = "";
 String email = "";
 String 에러메시지 = null;
+
 request.setCharacterEncoding("UTF-8");
 if (request.getMethod().equals("POST")) {
     loginid = request.getParameter("loginid");
@@ -34,7 +35,7 @@ if (request.getMethod().equals("POST")) {
         Member member = new Member(loginid, password1, name, Nickname, email);
         MemberDAO.insert(member);
         session.setAttribute("member", member);
-        response.sendRedirect("PostMain.jsp");
+        response.sendRedirect("loginForm.jsp");
         return;
     }
 }
@@ -77,7 +78,7 @@ if (request.getMethod().equals("POST")) {
   </div>
   <div class="form-group">
     <label>닉네임</label>
-    <input type="text" class="form-control" name="nickname" value="<%= name %>" />
+    <input type="text" class="form-control" name="nickname" value="<%= Nickname %>" />
   </div>
   <div class="form-group">
     <label>이메일</label>
