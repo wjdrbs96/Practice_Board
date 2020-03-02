@@ -5,9 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
-
-
 
 
 public class MemberDAO {
@@ -78,6 +75,8 @@ public class MemberDAO {
 					 "from post " +
 					 "where title Like ? " + 
 					 "Limit ?, ?";
+		
+		if (name == "") name = null;
 		try (Connection connection = DB.getConnection("board");
 	             PreparedStatement statement = connection.prepareStatement(sql)) {
 	        	    statement.setString(1, name + "%");
@@ -161,7 +160,16 @@ public class MemberDAO {
 		
 	}
 	
-	public static void Delete() {
+	public static void Delete(int id) throws Exception {
+		String sql = "Delete from post " +
+				     "where postId = ?";
+   
+
+		try (Connection connection = DB.getConnection("board");
+			PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		}
 		
 	}
  	

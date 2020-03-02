@@ -9,6 +9,8 @@ int pageSize = 10;
 
 String srchText = request.getParameter("srchText");
 
+if (srchText == null) srchText = "";
+	
 List<Post> list = MemberDAO.findBytitle(srchText,currentPage, pageSize);
 
 int recordCount = MemberDAO.count(srchText);
@@ -43,7 +45,7 @@ if (pg != null) {
 <form class="form-inline">
   <div class="form-group">
     <label>검색</label>
-    <input type="text" size=20 class="form-control" name="srchText"  placeholder="제목을 입력하세요" />
+    <input type="text" size=20 class="form-control" name="srchText" value="<%= srchText %>" placeholder="제목을 입력하세요" >
   </div>
   <button type="submit" class="btn btn-primary">조회</button>
 </form>

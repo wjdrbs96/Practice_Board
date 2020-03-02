@@ -25,7 +25,7 @@ if (request.getMethod().equals("POST")) {
 	
 	MemberDAO.Update(post);
 	
-	response.sendRedirect("PostMain.jsp");
+	response.sendRedirect("PostMain.jsp?");
     return;
 	
 	
@@ -33,8 +33,10 @@ if (request.getMethod().equals("POST")) {
 		
 }
 
-String pid = request.getParameter("id");
+String pid = request.getParameter("id");                     // 이게 어디서 가져오는거더라? 
 int id = Integer.parseInt(pid);
+
+
 
 Post post = MemberDAO.findByPostId(id);
 
@@ -97,7 +99,7 @@ Post post = MemberDAO.findByPostId(id);
   </table>
   
   <button type="submit" class="btn btn-primary">저장</button>
-  <a href="studentDelete1.jsp?id=<%= post.getPostId() %>" class="btn btn-warning" onclick="confirm('삭제하시겠습니까?')">삭제</a>
+  <a href="PostDelete.jsp?id=<%= post.getPostId() %>" class="btn btn-warning" onclick="confirm('삭제하시겠습니까?')">삭제</a>
   <a href="javascript:window.history.back()" class="btn btn-info">돌아가기</a>
 </form>
 
