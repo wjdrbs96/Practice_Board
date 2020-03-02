@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Date;
+
+
 
 
 public class MemberDAO {
@@ -24,8 +27,9 @@ public class MemberDAO {
 	                    return resultSet.getInt(1);
 	            }
 	        }
+	        
 	        return 0;
-	    }
+	}
 	
 	public static int loginCheck(String id, String pwd) throws Exception {
         String sql = "select password from member " +
@@ -99,5 +103,67 @@ public class MemberDAO {
 		
 	}
 	
+	public static Post findByPostId(int id) throws Exception {
+		String sql = "select p.postId, p.title, p.content, m.name, p.createDateTime " +
+					 "from member m join post p on m.memberId = p.memberId " +
+					 "where p.postId = ?";
+		
+		 try (Connection connection = DB.getConnection("board");
+	             PreparedStatement statement = connection.prepareStatement(sql)) {
+	             statement.setInt(1, id);
+	             try (ResultSet resultSet = statement.executeQuery()) {
+	            	  while (resultSet.next()) {
+			                Post post = new Post();
+			                post.setPostId(resultSet.getLong("postId"));
+			                post.setTitle(resultSet.getString("title"));
+			                post.setContent(resultSet.getString("content"));
+			                post.setName(resultSet.getString("name"));
+			                post.setCreateDateTime(resultSet.getDate("createDateTime"));
+			                return post;
+			          
+			       
+			        }
+	                         
+	           }
+	             
+	    }
+		return null;
+	
+	}
+	
+	public static void Update(Post post) throws Exception {
+		
+		String sql = "Update post " +
+					 "set title = ?, content = ? " +
+					 "where postId = ?";
+		
+		
+		try (Connection connection = DB.getConnection("board");
+	             PreparedStatement statement = connection.prepareStatement(sql)) {
+	            statement.setString(1, post.getTitle());
+	            statement.setString(2, post.getContent());
+	            //statement.setString(3, post.getName());
+	            //statement.setDate(4, (Date) post.getCreateDateTime());   // 이게 맞는건가 이 줄
+	            statement.setLong(3, post.getPostId());
+	            statement.executeUpdate();
+	    }
+		
+		String sql2 = "Update member " +
+				      "set name = ? " + 
+				      "where memberId = ?";
+		
+		try (Connection connection = DB.getConnection("board");
+	            PreparedStatement statement = connection.prepareStatement(sql2)) {
+	            statement.setString(1, post.getName());
+	            statement.setLong(2, post.getMemberId());   
+	            statement.executeUpdate();
+	    }
+		
+	}
+	
+	public static void Delete() {
+		
+	}
+ 	
 
 }

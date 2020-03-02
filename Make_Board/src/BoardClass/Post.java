@@ -9,6 +9,7 @@ public class Post {
 	String content;
 	int count;
 	Date createDateTime;
+	String name;
 	
 	public long getPostId() {
 		return postId;
@@ -57,4 +58,13 @@ public class Post {
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }
