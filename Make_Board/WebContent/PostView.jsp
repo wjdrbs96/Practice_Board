@@ -25,7 +25,7 @@ if (request.getMethod().equals("POST")) {
 	
 	MemberDAO.Update(post);
 	
-	response.sendRedirect("PostMain.jsp?");
+	response.sendRedirect("PostMain.jsp");
     return;
 	
 	

@@ -51,6 +51,21 @@ public class MemberDAO {
        
 	}
 	
+	public static void insertPost(Post post) throws Exception {
+		String sql = "insert post(memberId, title, content, count) " +
+					 "values(?, ?, ?, ?)";
+		
+		try (Connection connection = DB.getConnection("board");
+	            PreparedStatement statement = connection.prepareStatement(sql)) {
+	        	statement.setLong(1, post.getMemberId());
+	        	statement.setString(2, post.getTitle());
+	        	statement.setString(3, post.getContent());
+	        	statement.setInt(4, 1);
+	        
+	            statement.executeUpdate();
+	        }
+	}
+	
 	
 	public static void insert(Member member) throws Exception {
         

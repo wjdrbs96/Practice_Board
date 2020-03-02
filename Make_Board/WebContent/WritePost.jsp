@@ -1,82 +1,90 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" 
-    pageEncoding="UTF-8"%> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
-<html lang="ko"> 
-<head> 
-<script src="http://code.jquery.com/jquery-latest.js"></script> 
-<!-- jQuery받아오기 위해서 --> 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-<!-- 합쳐지고 최소화된 최신 CSS --> 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> 
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
-<title>Insert title here</title> 
-</head> 
-<body> 
-
-<div class="container"> 
-<!-- container는 표를 가운데 정렬하기 위해서 -->
-<table class="table table-hover table table-striped"> 
-<!-- table-hover클래스는 마우스를 올리면 회색이 생기게
-table-striped클래스는 홀수번째 테이블에 회색이 생겨있게-->
-<!-- table table-bordered 이 클래스는 테이블의 선 그어주기--> 
-
-<tr> 
-<th>번호</th> 
-<th>제목</th> 
-<th>작성자</th> 
-<th>날짜</th> 
-<th>조회수</th> 
-</tr> 
-
-<tr> 
-<td>1</td> 
-<td>bbbbbbb</td> 
-<td>ccccccc</td> 
-<td>2017.07.04</td> 
-<td>3</td> 
-</tr> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*,java.util.Date,java.text.SimpleDateFormat, BoardClass.*" %>
+<%
+if (request.getMethod().equals("POST")) {
+	Post post = new Post();
+	request.setCharacterEncoding("UTF-8");
+	
+	
+	String title = request.getParameter("title");
+	post.setTitle(title);
+	
+	String content = request.getParameter("content");
+	post.setContent(content);
+	
+	String name = request.getParameter("name");
+	post.setName(name);
+	
+	//String date = request.getParameter("time");
+	//SimpleDateFormat transformat = new SimpleDateFormat("HH:mm:ss");
+	//java.util.Date time = transformat.parse(date);
+	//post.setCreateDateTime(time);
+	
+	MemberDAO.insertPost(post);
+	
+	response.sendRedirect("PostMain.jsp");
+    return;
+			
+}
 
 
-<tr> 
-<td>2</td> 
-<td>bbbbbbb</td> 
-<td>ccccccc</td> 
-<td>2017.07.05</td> 
-<td>67</td> 
-</tr> 
 
 
-<tr> 
-<td>3</td> 
-<td>bbbbbbb</td> 
-<td>ccccccc</td> 
-<td>2017.07.06</td> 
-<td>5</td> 
-</tr> 
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+      body { font-family: 굴림체; }
+      table.table { width: 500px; }
+      table td:nth-child(1) { background-color: #eee; }
+  </style>
+</head>
+<body>
 
+<div class="container">
 
-<tr> 
-<td>4</td> 
-<td>bbbbbbb</td> 
-<td>ccccccc</td> 
-<td>2017.07.08</td> 
-<td>34</td> 
-</tr> 
-</table> 
+<h1>게시글 등록</h1>
 
-<a class="btn btn-default pull-right">글쓰기</a> 
+<form method="post">
+  <table class="table table-bordered table-condensed">
+ 
+    <tr>
+      <td>글 제목</td>
+      <td>
+          <textarea class="form-control" name="title" rows="1"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td>글 내용</td>
+      <td>
+          <textarea class="form-control" name="content" rows="10"></textarea>
+      </td>
+    </tr>    
+    
+    <tr>
+      <td>작성자</td>
+      <td>
+          <input type="text" name="name" class="form-control" >
+      </td>
+    </tr>
+     <tr>
+      <td>작성시간</td>
+      <td>
+          <input type="text" name="time" class="form-control" value=<%= new SimpleDateFormat("HH:mm:ss").format(new Date()) %>>
+      </td>
+    </tr>
+  </table>
+  
+  <button type="submit" class="btn btn-primary">등록</button>
+  <a href="javascript:window.history.back()" class="btn btn-info">돌아가기</a>
+</form>
 
-<div class="text-center"> 
-<ul class="pagination">
-<!-- pagination클래스는 번호를 이쁘게 꾸며준다 -->
-<li><a href="#">1</a></li> 
-<li><a href="#">2</a></li> 
-<li><a href="#">3</a></li> 
-<li><a href="#">4</a></li> 
-<li><a href="#">5</a></li> 
-</ul> 
-</div> 
-</div> 
-</body> 
+</div>
+</body>
 </html>
-
