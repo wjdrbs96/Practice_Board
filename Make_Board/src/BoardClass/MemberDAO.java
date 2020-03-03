@@ -88,16 +88,19 @@ public class MemberDAO {
 	public static List<Post> findBytitle(String name, int currentPage, int pageSize) throws Exception {
 		String sql = "select * " +
 					 "from post " +
-					 "where title Like ? " + 
+					 "where title Like ? or title Like ? or title Like ? " + 
 					 "Limit ?, ?";
 		
 		if (name == "") name = null;
 		try (Connection connection = DB.getConnection("board");
 	             PreparedStatement statement = connection.prepareStatement(sql)) {
 	        	    statement.setString(1, name + "%");
-	        	    statement.setInt(2, (currentPage - 1) * pageSize);
-	                statement.setInt(3, pageSize);
+	        	    statement.setString(2, "%" + name);
+	        	    statement.setString(3, "%" + name + "%");
+	        	    statement.setInt(4, (currentPage - 1) * pageSize);
+	                statement.setInt(5, pageSize);
 	                List<Post> list = new ArrayList<Post>();
+	                
 	            try (ResultSet resultSet = statement.executeQuery()) {
 	                while (resultSet.next()) {
 		                Post post = new Post();
@@ -110,12 +113,27 @@ public class MemberDAO {
 		          
 		                list.add(post);
 		            }
+	                
 	                return list;
 	            }
-	        }
+	   }
 		
+    }
+	
+	public static void Countup(long id, int count) throws Exception {
+		String sql = "Update post " +
+				     "set count = ? " +
+				     "where postId = ?";
 		
+		try (Connection connection = DB.getConnection("board");
+	            PreparedStatement statement = connection.prepareStatement(sql)) {
+	            statement.setInt(1, count + 1);
+	            statement.setLong(2, id);
+	            statement.executeUpdate();
+	    }
 	}
+	
+	
 	
 	public static Post findByPostId(int id) throws Exception {
 		String sql = "select p.postId, p.title, p.content, m.name, p.createDateTime " +
@@ -134,13 +152,14 @@ public class MemberDAO {
 			                post.setName(resultSet.getString("name"));
 			                post.setCreateDateTime(resultSet.getDate("createDateTime"));
 			                return post;
-			          
-			       
-			        }
+			                
+			          }
+	            	
 	                         
 	           }
 	             
 	    }
+		 
 		return null;
 	
 	}

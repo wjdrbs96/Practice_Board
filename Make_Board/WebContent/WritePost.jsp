@@ -15,6 +15,9 @@ if (request.getMethod().equals("POST")) {
 	String name = request.getParameter("name");
 	post.setName(name);
 	
+	String num = request.getParameter("number");
+	int n = Integer.parseInt(num);
+	post.setMemberId(n);
 	//String date = request.getParameter("time");
 	//SimpleDateFormat transformat = new SimpleDateFormat("HH:mm:ss");
 	//java.util.Date time = transformat.parse(date);
@@ -26,9 +29,6 @@ if (request.getMethod().equals("POST")) {
     return;
 			
 }
-
-
-
 
 %>
 <!DOCTYPE html>
@@ -71,6 +71,12 @@ if (request.getMethod().equals("POST")) {
       <td>작성자</td>
       <td>
           <input type="text" name="name" class="form-control" >
+      </td>
+    </tr>
+    <tr>
+      <td>작성자번호</td>
+      <td>
+          <input type="text" name="number" class="form-control" >
       </td>
     </tr>
      <tr>

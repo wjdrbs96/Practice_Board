@@ -18,6 +18,7 @@ if (request.getMethod().equals("POST")) {
 	String name = request.getParameter("name");
 	post.setName(name);
 	
+	
 	//String date = request.getParameter("time");
 	//SimpleDateFormat transformat = new SimpleDateFormat("HH:mm:ss");
 	//java.util.Date time = transformat.parse(date);
@@ -27,18 +28,16 @@ if (request.getMethod().equals("POST")) {
 	
 	response.sendRedirect("PostMain.jsp");
     return;
-	
-	
-	
 		
 }
 
-String pid = request.getParameter("id");                     // 이게 어디서 가져오는거더라? 
+String pid = request.getParameter("id");
+
+
 int id = Integer.parseInt(pid);
 
-
-
 Post post = MemberDAO.findByPostId(id);
+MemberDAO.Countup(post.getPostId(), post.getCount());
 
 
 %>
