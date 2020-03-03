@@ -19,6 +19,7 @@ String pg = request.getParameter("pg");
 if (pg != null) {
 	currentPage = Integer.parseInt(pg);
 }
+
 // 필요한 코드 작성
 %>
 

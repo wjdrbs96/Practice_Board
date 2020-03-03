@@ -18,11 +18,11 @@ public class MemberDAO {
 	        
 	        try (Connection connection = DB.getConnection("board");
 	             PreparedStatement statement = connection.prepareStatement(sql)) {
-	            statement.setString(1, name + "%");
-	            try (ResultSet resultSet = statement.executeQuery()) {
-	                if (resultSet.next())
-	                    return resultSet.getInt(1);
-	            }
+	             statement.setString(1, name + "%");
+	             try (ResultSet resultSet = statement.executeQuery()) {
+	                 if (resultSet.next())
+	                     return resultSet.getInt(1);
+	             }
 	        }
 	        
 	        return 0;
@@ -31,6 +31,7 @@ public class MemberDAO {
 	public static int loginCheck(String id, String pwd) throws Exception {
         String sql = "select password from member " +
         			 "where loginId = ?";
+        
         String dbpw = "";
         try (Connection connection = DB.getConnection("board");
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -40,6 +41,7 @@ public class MemberDAO {
                 	   dbpw = resultSet.getString("password");
                 	   if (dbpw.equals(pwd)) 
                 		   return 1;              // 아이디와 비번이 같을 때
+                	   
                 	   else 
                 		   return 0;              // 아이디와 비번이 다를 때
                    }
@@ -136,7 +138,7 @@ public class MemberDAO {
 	
 	
 	public static Post findByPostId(int id) throws Exception {
-		String sql = "select p.postId, p.title, p.content, m.name, p.createDateTime " +
+		String sql = "select p.postId, p.title, p.content, p.count, m.name, p.createDateTime " +
 					 "from member m join post p on m.memberId = p.memberId " +
 					 "where p.postId = ?";
 		
@@ -149,6 +151,7 @@ public class MemberDAO {
 			                post.setPostId(resultSet.getLong("postId"));
 			                post.setTitle(resultSet.getString("title"));
 			                post.setContent(resultSet.getString("content"));
+			                post.setCount(resultSet.getInt("count"));
 			                post.setName(resultSet.getString("name"));
 			                post.setCreateDateTime(resultSet.getDate("createDateTime"));
 			                return post;
@@ -164,6 +167,26 @@ public class MemberDAO {
 	
 	}
 	
+	public static int findByMemberId(String ID) throws Exception {
+		String sql = "select memberId " +
+					 "from member " +
+					 "where loginId = ?";
+		
+		try (Connection connection = DB.getConnection("board");
+	             PreparedStatement statement = connection.prepareStatement(sql)) {
+	             statement.setString(1, ID);
+	             try (ResultSet resultSet = statement.executeQuery()) {
+	            	  while (resultSet.next()) {
+	            		  return resultSet.getInt("memberId");
+			          }	            	                         
+	             }
+	             
+	    }
+		return -1;
+		
+	}
+
+	
 	public static void Update(Post post) throws Exception {
 		
 		String sql = "Update post " +
@@ -172,7 +195,7 @@ public class MemberDAO {
 		
 		
 		try (Connection connection = DB.getConnection("board");
-	             PreparedStatement statement = connection.prepareStatement(sql)) {
+	            PreparedStatement statement = connection.prepareStatement(sql)) {
 	            statement.setString(1, post.getTitle());
 	            statement.setString(2, post.getContent());
 	            //statement.setString(3, post.getName());
@@ -206,6 +229,7 @@ public class MemberDAO {
 		}
 		
 	}
+	
  	
 
 }

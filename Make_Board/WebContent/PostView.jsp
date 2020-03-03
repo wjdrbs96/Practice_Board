@@ -19,6 +19,7 @@ if (request.getMethod().equals("POST")) {
 	post.setName(name);
 	
 	
+	
 	//String date = request.getParameter("time");
 	//SimpleDateFormat transformat = new SimpleDateFormat("HH:mm:ss");
 	//java.util.Date time = transformat.parse(date);
@@ -37,6 +38,7 @@ String pid = request.getParameter("id");
 int id = Integer.parseInt(pid);
 
 Post post = MemberDAO.findByPostId(id);
+
 MemberDAO.Countup(post.getPostId(), post.getCount());
 
 

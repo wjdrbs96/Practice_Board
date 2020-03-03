@@ -30,7 +30,14 @@ if (request.getMethod().equals("POST")) {
 			
 }
 
+String s = (String)session.getAttribute("userid");
+
+
+int num = MemberDAO.findByMemberId(s);
+
+	
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +83,7 @@ if (request.getMethod().equals("POST")) {
     <tr>
       <td>작성자번호</td>
       <td>
-          <input type="text" name="number" class="form-control" >
+          <input type="text" name="number" value="<%= num %>" class="form-control" >
       </td>
     </tr>
      <tr>
