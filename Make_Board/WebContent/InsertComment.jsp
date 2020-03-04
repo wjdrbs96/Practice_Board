@@ -8,8 +8,8 @@ String pid = request.getParameter("PID");
 
 int ID = Integer.parseInt(pid);
 
-MemberDAO.CommentInsert(title,ID);
-response.sendRedirect("PostComment.jsp");
+MemberDAO.CommentInsert(title, ID);
+response.sendRedirect("PostComment.jsp?id=" + ID);
 
 
 %>

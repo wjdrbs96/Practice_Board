@@ -43,6 +43,7 @@ List<Comment> list = MemberDAO.findByAllComment();
     	</tr>
     <% }%>
 </table>
+<a href="PostView.jsp?id=<%= id %>" class="btn btn-info">돌아가기</a>
 </div>
 </body>
 </html>
