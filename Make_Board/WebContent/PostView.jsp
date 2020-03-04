@@ -18,8 +18,6 @@ if (request.getMethod().equals("POST")) {
 	String name = request.getParameter("name");
 	post.setName(name);
 	
-	
-	
 	//String date = request.getParameter("time");
 	//SimpleDateFormat transformat = new SimpleDateFormat("HH:mm:ss");
 	//java.util.Date time = transformat.parse(date);
@@ -32,9 +30,9 @@ if (request.getMethod().equals("POST")) {
 		
 }
 
+
+
 String pid = request.getParameter("id");
-
-
 int id = Integer.parseInt(pid);
 
 Post post = MemberDAO.findByPostId(id);
@@ -100,8 +98,26 @@ MemberDAO.Countup(post.getPostId(), post.getCount());
   </table>
   
   <button type="submit" class="btn btn-primary">저장</button>
+  <a href="PostComment.jsp?id=<%= post.getPostId() %>" class="btn btn-warning">댓글</a>
   <a href="PostDelete.jsp?id=<%= post.getPostId() %>" class="btn btn-warning" onclick="confirm('삭제하시겠습니까?')">삭제</a>
   <a href="javascript:window.history.back()" class="btn btn-info">돌아가기</a>
+</form>
+
+
+<h1>댓글 등록</h1>
+<form action="InsertComment.jsp" method="get">
+  <table class="table table-bordered table-condensed">
+    <tr>
+      <td class="mid" width="100">댓글</td>
+      <td width="700">
+          <textarea class="form-control" name="title" rows="2"></textarea>
+      </td>
+       <td><input type="text" name="PID" value="<%= post.getPostId() %>"></td>
+    </tr>
+  </table>
+  
+  <button type="submit" class="btn btn-primary">등록</button>
+  
 </form>
 
 </div>

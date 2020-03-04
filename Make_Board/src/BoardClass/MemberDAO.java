@@ -185,6 +185,72 @@ public class MemberDAO {
 		return -1;
 		
 	}
+	
+	public static void CommentInsert(String title, int postID) throws Exception {
+		Post post = MemberDAO.findByPostId(postID);
+		
+		String sql = "insert into comment(postId, memberId, content) " +
+					 "values(?,?,?)";
+		
+		try (Connection connection = DB.getConnection("board");
+	            PreparedStatement statement = connection.prepareStatement(sql)) {
+	        	statement.setLong(1, post.getPostId());
+	        	statement.setLong(2, post.getMemberId());
+	        	statement.setString(3, title);
+	      
+	            statement.executeUpdate();
+	    }
+		
+		
+	}
+	
+	public static List<Comment> findByAllComment() throws Exception {
+		String sql = "select c.* " +
+					 "from comment c join post p " +
+					 "on c.postId = p.postId";
+		
+		
+		try (Connection connection = DB.getConnection("board");
+	             PreparedStatement statement = connection.prepareStatement(sql)) {
+	             List<Comment> list = new ArrayList<>();
+	                
+	            try (ResultSet resultSet = statement.executeQuery()) {
+	                 while (resultSet.next()) {
+		                 Comment comment = new Comment();
+		                 comment.setCommentId(resultSet.getLong("commentId"));
+		                 comment.setPostId(resultSet.getLong("PostId"));
+		                 comment.setMemberId(resultSet.getLong("memberId"));
+		                 comment.setContent(resultSet.getString("content"));
+		                 comment.setCreateDateTime(resultSet.getDate("createDateTime"));
+		          
+		                 list.add(comment);
+		             }
+	                
+	                 return list;
+	            }
+	   }
+		
+		
+	}
+	
+	public static String findByName(String ID) throws Exception {
+		String sql = "select name " +
+					 "from member " +
+					 "where loginId = ?";
+		
+		try (Connection connection = DB.getConnection("board");
+	             PreparedStatement statement = connection.prepareStatement(sql)) {
+	             statement.setString(1, ID);
+	             try (ResultSet resultSet = statement.executeQuery()) {
+	            	  while (resultSet.next()) {
+	            		  return resultSet.getString("name");
+			          }	            	                         
+	             }
+	             
+	    }
+		
+		return null;
+	}
 
 	
 	public static void Update(Post post) throws Exception {

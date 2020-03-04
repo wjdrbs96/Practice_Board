@@ -35,6 +35,8 @@ String s = (String)session.getAttribute("userid");
 
 int num = MemberDAO.findByMemberId(s);
 
+String name = MemberDAO.findByName(s);
+
 	
 %>
 
@@ -77,7 +79,7 @@ int num = MemberDAO.findByMemberId(s);
     <tr>
       <td>작성자</td>
       <td>
-          <input type="text" name="name" class="form-control" >
+          <input type="text" name="name" value="<%= name %>" class="form-control" >
       </td>
     </tr>
     <tr>
