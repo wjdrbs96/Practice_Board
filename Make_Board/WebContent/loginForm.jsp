@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.text.*, BoardClass.*" %>
+
+<!-- 
+
+로그인 or 회원가입을 하는 페이지 
+
+1. 로그인 성공시  PostMain.jsp 로 이동
+2. 회원가입시 register1.jsp 로 이동
+-->
+
 <%
 SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 String 현재시각 = format.format(new Date());

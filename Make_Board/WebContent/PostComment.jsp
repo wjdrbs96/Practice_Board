@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*,java.util.Date,java.text.SimpleDateFormat, BoardClass.*" %>
 
+
+<!--
+댓글의 내용을 전부다 보여주는 페이지  ++  Front를 못만들겠어서 걍 테이블 써서 만들었는데 보기가 안 이쁜 상태 
+-->
 <%
 String pid = request.getParameter("id");
 int id = Integer.parseInt(pid);

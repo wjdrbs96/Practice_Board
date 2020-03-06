@@ -28,6 +28,8 @@ public class MemberDAO {
 	        return 0;
 	}
 	
+	 
+	// 로그인 할 때 체크하는 메소드 
 	public static int loginCheck(String id, String pwd) throws Exception {
         String sql = "select password from member " +
         			 "where loginId = ?";
@@ -53,6 +55,9 @@ public class MemberDAO {
        
 	}
 	
+	
+	// 게시글 만들면 DB에 추가해주는 메소드
+	
 	public static void insertPost(Post post) throws Exception {
 		String sql = "insert post(memberId, title, content, count) " +
 					 "values(?, ?, ?, ?)";
@@ -68,7 +73,7 @@ public class MemberDAO {
 	        }
 	}
 	
-	
+	// 회원가입하면 Member를 추가해주는 메소드
 	public static void insert(Member member) throws Exception {
         
 		String sql = "insert member(loginId, password, name, nickname, email) " +
@@ -87,13 +92,17 @@ public class MemberDAO {
         }
     }
 	
+	/*
+	검색창으로 제목을 검색할 때  쓰는 메소드
+	검색하려는 단어가 "제목" 의 처음이든 중간이든 마지막이든 들어있으면 모두 나오게 만들려고 만듬
+	*/
 	public static List<Post> findBytitle(String name, int currentPage, int pageSize) throws Exception {
 		String sql = "select * " +
 					 "from post " +
 					 "where title Like ? or title Like ? or title Like ? " + 
 					 "Limit ?, ?";
 		
-		if (name == "") name = null;
+		if (name == "") name = null;         // 코드 실행하다 보면 name=""으로 넘어오는 경우가 있어서 만듬
 		try (Connection connection = DB.getConnection("board");
 	             PreparedStatement statement = connection.prepareStatement(sql)) {
 	        	    statement.setString(1, name + "%");
@@ -122,6 +131,8 @@ public class MemberDAO {
 		
     }
 	
+	
+	//게시글을 누를 때 마다 조회수가 자동으로 올라가게 만드는 메소드
 	public static void Countup(long id, int count) throws Exception {
 		String sql = "Update post " +
 				     "set count = ? " +
@@ -136,7 +147,7 @@ public class MemberDAO {
 	}
 	
 	
-	
+	// 실행 하다보면 게시글 번호를 통해서 post 테이블을 찾아서 다른 컬럼을 찾아서 써야할 때가 있어서 만든 메소드
 	public static Post findByPostId(int id) throws Exception {
 		String sql = "select p.postId, p.title, p.content, p.count, m.name, p.createDateTime " +
 					 "from member m join post p on m.memberId = p.memberId " +
@@ -167,6 +178,8 @@ public class MemberDAO {
 	
 	}
 	
+	
+	//MemberId 로 멤버 테이블을 찾아주는 메소드
 	public static int findByMemberId(String ID) throws Exception {
 		String sql = "select memberId " +
 					 "from member " +
@@ -186,6 +199,8 @@ public class MemberDAO {
 		
 	}
 	
+	
+	// 댓글을 입력하면 DB에 넣어주는 메소드
 	public static void CommentInsert(String title, int postID) throws Exception {
 		Post post = MemberDAO.findByPostId(postID);
 		
@@ -204,6 +219,8 @@ public class MemberDAO {
 		
 	}
 	
+	
+	// "댓글" 버튼을 누르면 댓글 전부다 보여주기 위해서 만든 메소드
 	public static List<Comment> findByAllComment() throws Exception {
 		String sql = "select c.* " +
 					 "from comment c join post p " +
@@ -233,6 +250,8 @@ public class MemberDAO {
 		
 	}
 	
+	
+	// 멤버 이름으로 찾는 메소드 
 	public static String findByName(String ID) throws Exception {
 		String sql = "select name " +
 					 "from member " +
@@ -252,7 +271,7 @@ public class MemberDAO {
 		return null;
 	}
 
-	
+	// 게시글 수정하면 업데이트해주는 메소드
 	public static void Update(Post post) throws Exception {
 		
 		String sql = "Update post " +
@@ -283,6 +302,8 @@ public class MemberDAO {
 		
 	}
 	
+	
+	// 게시글 삭제하는 메소드
 	public static void Delete(int id) throws Exception {
 		String sql = "Delete from post " +
 				     "where postId = ?";

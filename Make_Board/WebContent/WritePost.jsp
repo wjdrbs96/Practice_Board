@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*,java.util.Date,java.text.SimpleDateFormat, BoardClass.*" %>
+
+<!-- 게시글을 작성하는 페이지  -->
+
 <%
 if (request.getMethod().equals("POST")) {
 	Post post = new Post();
 	request.setCharacterEncoding("UTF-8");
-	
 	
 	String title = request.getParameter("title");
 	post.setTitle(title);

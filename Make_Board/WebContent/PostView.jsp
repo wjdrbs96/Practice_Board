@@ -18,6 +18,7 @@ if (request.getMethod().equals("POST")) {
 	String name = request.getParameter("name");
 	post.setName(name);
 	
+	
 	//String date = request.getParameter("time");
 	//SimpleDateFormat transformat = new SimpleDateFormat("HH:mm:ss");
 	//java.util.Date time = transformat.parse(date);

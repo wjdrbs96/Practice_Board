@@ -3,6 +3,18 @@
 <%@ page import="java.util.*, java.text.*, BoardClass.*" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
+<!--
+
+게시글 검색을 하면 Main 페이지 
+
+1. 게시글 검색을 하고 title 링크를 누르면 해당 게시글 내용 페이지인 PostView.jsp 로 이동
+
+2. "글 쓰기" 버튼을 누르면 WritePost.jsp로 이동 
+
+
+-->
+
+
 <%
 int currentPage = 1;
 int pageSize = 10;
