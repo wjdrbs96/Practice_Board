@@ -13,6 +13,7 @@ Post post = MemberDAO.findByPostId(id);
 
 List<Comment> list = MemberDAO.findByAllComment();
 
+
 %>
 
 <!DOCTYPE html>
@@ -33,17 +34,14 @@ List<Comment> list = MemberDAO.findByAllComment();
 
 <div class="container">
 
+<h1>댓글 목록 </h1>
 <table class="table table-bordered table-condensed">
-    <% for (int i = 0; i < list.size(); ++i) { %>
-    	<tr>
-    		<td>댓글번호</td>
-    		<td>내용</td>
-    		<td>작성시간</td>
-    	</tr>
+    <% for (int i = 0; i < list.size(); ++i) { %> 	
     	<tr>
     		<td><%= list.get(i).getCommentId()%></td>
     		<td><%= list.get(i).getContent() %></td>
     		<td><%= list.get(i).getCreateDateTime()%></td>
+    		<td><a href="commentDelete.jsp?id=<%=list.get(i).getCommentId() %>">삭제</a></td>
     	</tr>
     <% }%>
 </table>

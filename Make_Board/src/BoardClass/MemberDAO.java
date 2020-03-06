@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -127,6 +128,7 @@ public class MemberDAO {
 	                
 	                return list;
 	            }
+	            
 	   }
 		
     }
@@ -197,6 +199,34 @@ public class MemberDAO {
 	    }
 		return -1;
 		
+	}
+	
+	
+	// 댓글 삭제할 때 번호 찾아서 삭제하기 위한 메소드
+	public static List<Comment> findByCommentId(int ID) throws Exception {
+		String sql = "select c.commentid, c.content " +
+					 "from comment c " +
+					 "where commentid = ?";
+				
+		try (Connection connection = DB.getConnection("board");
+	             PreparedStatement statement = connection.prepareStatement(sql)) {
+	             statement.setInt(1, ID);
+	             List<Comment> list = new LinkedList<>();
+	             try (ResultSet resultSet = statement.executeQuery()) {
+	            	  while (resultSet.next()) {
+	            		  Comment comment = new Comment();
+	            		  comment.setCommentId(resultSet.getInt("commentid"));
+	            		  comment.setContent(resultSet.getString("content"));
+	            		  list.add(comment);
+	            		  return list;
+			          }
+	            	  
+	         
+	             }
+	             
+	    }
+		
+		return null;
 	}
 	
 	
@@ -316,6 +346,19 @@ public class MemberDAO {
 		}
 		
 	}
+	
+	public static void DeleteComment(int id) throws Exception {
+		String sql = "Delete from comment " +
+					 "where commentid = ?";
+		
+		try (Connection connection = DB.getConnection("board");
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+				statement.setInt(1, id);
+				statement.executeUpdate();
+		}
+		
+	}
+	
 	
  	
 
