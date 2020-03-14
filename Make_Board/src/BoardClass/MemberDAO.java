@@ -32,27 +32,26 @@ public class MemberDAO {
 	 
 	// 로그인 할 때 체크하는 메소드 
 	public static int loginCheck(String id, String pwd) throws Exception {
-        String sql = "select password from member " +
-        			 "where loginId = ?";
-        
-        String dbpw = "";
-        try (Connection connection = DB.getConnection("board");
-                PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, id);
-                try (ResultSet resultSet = statement.executeQuery()) {
-                   if (resultSet.next()) {
-                	   dbpw = resultSet.getString("password");
-                	   if (dbpw.equals(pwd)) 
-                		   return 1;              // 아이디와 비번이 같을 때
-                	   
-                	   else 
-                		   return 0;              // 아이디와 비번이 다를 때
-                   }
-                   
-                   else
-                       return -1;                // 아이디가 존재하지 않을 때 
-               }
-        }
+		String sql = "select password from member " + "where loginId = ?";
+
+		String dbpw = "";
+		try (Connection connection = DB.getConnection("board");
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, id);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					dbpw = resultSet.getString("password");
+					if (dbpw.equals(pwd))
+						return 1; // 아이디와 비번이 같을 때
+
+					else
+						return 0; // 아이디와 비번이 다를 때
+				}
+
+				else
+					return -1; // 아이디가 존재하지 않을 때
+			}
+		}
        
 	}
 	
